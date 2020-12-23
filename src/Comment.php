@@ -26,9 +26,7 @@ class Comment {
 	 */
 	public $link;
 
-	public $reply_to_user = null;
-
-	private $rules = [
+	private const RULES = [
 		// gratitude
 		'(?:(?:big\s+|many\s+)?th?ank(?:s|\s*you|\s*u)?(?:\s+a lot|\s+(?:very|so) much|\s+a mil+ion|\s+)?(?:\s*for (?:your|the)?(?:\s+help)?)?|th?anx|thx|cheers)[!\.,:()\s]*(?:\w+[!\.,:()\s]*)?',
 		// it worked like a charm
@@ -54,7 +52,6 @@ class Comment {
 		$this->creation_date = date_create_from_format('U', $json->creation_date);
 		$this->link = $json->link;
 		$this->body = htmlspecialchars_decode($json->body, ENT_QUOTES | ENT_HTML401);
-		$this->reply_to_user = $json->reply_to_user ?? null;
 
 		$this->bodyWithoutCode = preg_replace('#\s*(?:<pre>)?<code>.*?<\/code>(?:<\/pre>)?\s*#s', '', $this->body);
 	}
@@ -67,7 +64,7 @@ class Comment {
 
 	public function executeRules(): array {
 		$reasons = [];
-		foreach ($this->rules as $regex) {
+		foreach (self::RULES as $regex) {
 			$reasons = array_merge($reasons, $this->executeRule($regex));
 		}
 		if ($reasons) {
