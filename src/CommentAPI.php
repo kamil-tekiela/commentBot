@@ -63,18 +63,7 @@ class CommentAPI {
 		foreach ($contents->items as $commentJSON) {
 			$comment = new Comment($commentJSON);
 
-			$reasons = [];
-
-			$reasons = array_merge($reasons, $comment->getGratitude());
-			$reasons = array_merge($reasons, $comment->itWorked());
-			$reasons = array_merge($reasons, $comment->yourWelcome());
-			$reasons = array_merge($reasons, $comment->youHelpedMe());
-			$reasons = array_merge($reasons, $comment->updated());
-			$reasons = array_merge($reasons, $comment->excitement());
-			$reasons = array_merge($reasons, $comment->lifeSaver());
-			if ($reasons) {
-				$reasons = array_merge($reasons, $comment->userMentioned());
-			}
+			$reasons = $comment->executeRules();
 
 			if ($reasons && ($ratio = $comment->noiseToSize($reasons)) > 0.33) {
 				$line = $comment->creation_date->format('Y-m-d H:i:s').' - '.$comment->link.PHP_EOL;
@@ -89,7 +78,7 @@ class CommentAPI {
 						} catch (\Exception $e) {
 							file_put_contents(BASE_DIR.DIRECTORY_SEPARATOR.'logs'.DIRECTORY_SEPARATOR.'errors'.DIRECTORY_SEPARATOR.date('Y_m_d_H_i_s').'.log', $e->getMessage());
 						}
-					} else{
+					} else {
 						var_dump($comment);
 					}
 				} else {
