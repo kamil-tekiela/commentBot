@@ -50,9 +50,6 @@ class Comment {
 		if (preg_match_all('#((?<!\S)@[[:alnum:]][-\'[:word:]]{2,})[[:punct:]]*(?!\S)|(\buser\d+\b)#iu', strip_tags(preg_replace('#\s*<a.*?>.*?<\/a>\s*#s', '', $this->bodyWithoutCode)), $matches, PREG_SET_ORDER)) {
 			$m = array_column($matches, 0);
 		}
-		// if($this->reply_to_user){
-		// 	$m = [$this->reply_to_user->display_name];
-		// }
 		return $m;
 	}
 
