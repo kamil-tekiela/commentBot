@@ -1,5 +1,7 @@
 <?php
 
+use Dharman\StackAPI;
+
 define('BASE_DIR', realpath(__DIR__.'/..'));
 
 include BASE_DIR.'/vendor/autoload.php';

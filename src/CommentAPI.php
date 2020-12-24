@@ -1,5 +1,7 @@
 <?php
 
+use Dharman\StackAPI;
+
 class CommentAPI {
 	/**
 	 * Stack API class for using the official Stack Exchange API
@@ -29,12 +31,18 @@ class CommentAPI {
 	 */
 	private $userToken = '';
 
+	/**
+	 * My app key. Not secret
+	 */
+	private $app_key = '';
+
 	public $running_count = 0;
 
 	public function __construct(StackAPI $stackAPI, string $delay, DotEnv $dotEnv) {
 		$this->stackAPI = $stackAPI;
 		$this->lastRequest = strtotime($delay);
 		$this->userToken = $dotEnv->get('key');
+		$this->app_key = $dotEnv->get('app_key');
 		if (!$this->userToken) {
 			throw new \Exception('Please login first and provide valid user token!');
 		}
@@ -47,7 +55,7 @@ class CommentAPI {
 		// 	$url .= '/60673041';
 		// }
 		$args = [
-			// 'todate' => strtotime('4 days 15 hours ago'),
+			'key' => $this->app_key,
 			'site' => 'stackoverflow',
 			'order' => 'asc',
 			'sort' => 'creation',
