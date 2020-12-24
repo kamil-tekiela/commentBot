@@ -108,6 +108,7 @@ class CommentAPI {
 		$url = 'https://api.stackexchange.com/2.2/comments/'.$question_id.'/flags/options';
 
 		$args = [
+			'key' => $this->app_key,
 			'site' => 'stackoverflow',
 			'access_token' => $this->userToken, // Dharman
 		];
