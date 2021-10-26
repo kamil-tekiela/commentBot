@@ -10,3 +10,4 @@ comments_log.txt
 chatAPI_cookies.json
 nextRqPossibleAt
 comments_log_old.txt
+composer.lock
