@@ -18,7 +18,7 @@ $fetcher = new CommentAPI($stackAPI, '1 year ago', $dotEnv);
 
 $failedTries = 0;
 while (1) {
-	if ($fetcher->running_count >= $dotEnv->get('commentsToFlag')) {
+	if ($fetcher->running_count >= $dotEnv->get('commentsToFlag') || $fetcher->getTimeLeft() < 0) {
 		break;
 	}
 

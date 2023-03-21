@@ -18,6 +18,13 @@ class CommentAPI {
 	private $lastRequest;
 
 	/**
+	 * End time
+	 *
+	 * @var int
+	 */
+	private $endTime;
+
+	/**
 	 * Time of last auto-flagging
 	 *
 	 * @var \DateTime
@@ -41,6 +48,7 @@ class CommentAPI {
 	public function __construct(StackAPI $stackAPI, string $delay, DotEnv $dotEnv) {
 		$this->stackAPI = $stackAPI;
 		$this->lastRequest = strtotime($delay);
+		$this->endTime = $this->lastRequest + 86400;
 		$this->userToken = $dotEnv->get('key');
 		$this->app_key = $dotEnv->get('app_key');
 		if (!$this->userToken) {
@@ -97,6 +105,10 @@ class CommentAPI {
 			// set last request
 			$this->lastRequest = $commentJSON->creation_date;
 		}
+	}
+
+	public function getTimeLeft(): int {
+		return $this->endTime - $this->lastRequest;
 	}
 
 	private function flagPost(int $question_id) {
